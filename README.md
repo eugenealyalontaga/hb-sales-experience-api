@@ -1,2 +1,1 @@
-# mulesoft-playground
-MuleSoft practice and experiments
+Heritage Sales Experience API
