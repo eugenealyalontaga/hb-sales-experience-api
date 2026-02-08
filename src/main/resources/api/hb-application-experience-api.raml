@@ -1,0 +1,55 @@
+#%RAML 1.0
+title: Heritage Bookshop Experience API
+description: Experience API that is exposed to the applications that is integrated with Heritage Bookshop.
+version: 1.0
+mediaType: application/json
+protocols:
+  - HTTPS
+uses:
+  datatypes-library: library/datatypes-library.raml
+
+/sales:
+  post:
+    description: Create a sales transaction
+    displayName: Create a sales transaction
+    body:
+      application/json:
+        type: datatypes-library.CreateSalesRequestSchemaBlueApp | datatypes-library.CreateSalesRequestSchemaOrangeApp
+        example: !include post_sales/examples/post_sales_blue_app_request_examples.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: datatypes-library.CreateSalesResponseSchemaApp
+            example: !include post_sales/examples/post_sales_app_response_examples.json
+      400:
+        description: Error is a bad request on the payload, querystring, or headers.
+        body:
+          application/json:
+      500:
+        description: Something went wrong with the request.
+        body:
+          application/json:
+  get:
+    description: Retrieve sales by transaction id
+    displayName: Retrieve sales by transaction id
+    queryParameters:
+      transactionId:
+        type: string
+        required: true
+        description: "Unique identifier of the sales transaction to retrieve"
+        example: "Orange-002"
+    responses:
+      200:
+        body:
+          application/json:
+            type: datatypes-library.GetSalesResponseSchema
+            example: !include get_sales/examples/get_sales_app_response_example.json.json
+      400:
+        description: Error is a bad request on the payload, querystring, or headers.
+        body:
+          application/json:
+      500:
+        description: Something went wrong with the request.
+        body:
+          application/json:

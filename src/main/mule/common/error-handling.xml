@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" 
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" 
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+	http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+	http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+	
+	<error-handler name="hb-application-experience-api_APIKIT_Error_Handler" doc:id="c121b7cf-1a08-409b-a9e9-2751babd6300">
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1abcbb64-04a9-495b-8ec4-6a301245af43" type="APIKIT:BAD_REQUEST">
+			<logger level="ERROR" doc:name="START APIKIT:BAD_REQUEST" doc:id="1da43026-6049-42f3-b5b9-4e41411802e9" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START APIKIT_BAD_REQUEST ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+			<ee:transform doc:name="Error Payload" doc:id="9617e02a-ca77-489a-bad6-c40227dafda1" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	errorDetails: {
+		status: '400',
+		errorType: 'APIKIT:BAD_REQUEST',
+		description: error.description,
+		additionalDetails: error.errorMessage.payload,
+		timeStamp: now(),
+		transactionId: correlationId	
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'400']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END APIKIT:BAD_REQUEST" doc:id="8e6f930f-6ec6-464a-9b99-9ed358d36f12" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END APIKIT_BAD_REQUEST ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+		</on-error-propagate>
+
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d6e21fc5-d39f-40ff-8926-e8177069213f" type="APIKIT:CONNECTIVITY">
+			<logger level="ERROR" doc:name="START APIKIT:CONNECTIVITY" doc:id="53f3e6d9-c0b3-4db9-bf57-1ca3a9d62ca5" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START APIKIT:CONNECTIVITY ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+			<ee:transform doc:name="Error Payload" doc:id="a3e17985-c687-4ac5-8dfd-e0218834ac0b" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	errorDetails: {
+		status: '502',
+		errorType: 'APIKIT_CONNECTIVITY',
+		description: error.description,
+		additionalDetails: error.errorMessage.payload,
+		timeStamp: now(),
+		transactionId: correlationId		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'502']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END APIKIT:CONNECTIVITY" doc:id="4fe95d6a-f0dc-496a-b9b5-a97615cf6e54" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END APIKIT:CONNECTIVITY ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+		</on-error-propagate>
+
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4b5e3950-5d06-493a-a350-5ec589a04072" type="APIKIT:METHOD_NOT_ALLOWED">
+			<logger level="ERROR" doc:name="START APIKIT:METHOD_NOT_ALLOWED" doc:id="8871b66b-ea35-4269-aaaf-d5d0d43308ae" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START APIKIT:METHOD_NOT_ALLOWED ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+			<ee:transform doc:name="Error Payload" doc:id="c57eb891-2ce6-42e3-95b6-3bd50dcf73e4" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	errorDetails: {
+		status: '405',
+		errorType: 'APIKIT_METHOD_NOT_ALLOWED',
+		description: error.description,
+		additionalDetails: error.errorMessage.payload,
+		timeStamp: now(),
+		transactionId: correlationId			
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'405']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END APIKIT:METHOD_NOT_ALLOWED" doc:id="9e0dfc98-9b6a-49e2-a491-414b48b67e0e" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END APIKIT:METHOD_NOT_ALLOWED ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+		</on-error-propagate>
+		
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f7ca6bd7-085f-4b22-9e0c-31c9106d1bca" type="APIKIT:NOT_ACCEPTABLE">
+			<logger level="ERROR" doc:name="START APIKIT:NOT_ACCEPTABLE" doc:id="d85fd43c-839f-4af1-b0f6-3c999a64717f" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START APIKIT:NOT_ACCEPTABLE ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+			<ee:transform doc:name="Error Payload" doc:id="04aa3dd2-b436-4ac1-be99-82f0783b6a39">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	errorDetails: {
+		status: '406',
+		errorType: 'APIKIT_NOT_ACCEPTABLE',
+		description: error.description,
+		additionalDetails: error.errorMessage.payload,
+		timeStamp: now(),
+		transactionId: vars.correlationHeader		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+'406']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END APIKIT:NOT_ACCEPTABLE" doc:id="22556902-050d-4a63-b32b-341ddfa2eb41" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END APIKIT:NOT_ACCEPTABLE ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+		</on-error-propagate>
+		
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="65f14000-f7ca-4a85-a8a0-07f4cb38e8f1" type="APIKIT:NOT_FOUND">
+			<logger level="ERROR" doc:name="START APIKIT:NOT_FOUND" doc:id="a8cd5b01-97d5-4124-bb88-bad1d17e63c0" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START APIKIT:NOT_FOUND ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+			<ee:transform doc:name="Error Payload" doc:id="a7172955-5b6f-4629-8602-63ea37e94783">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	errorDetails: {
+		status: '404',
+		errorType: error.errorType.identifier,
+		description: error.description,
+		additionalDetails: error.errorMessage.payload,
+		timeStamp: now(),
+		transactionId: correlationId	
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+'404']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END APIKIT:NOT_FOUND" doc:id="49ab40ca-e0d3-4630-af79-1de9d3005582" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END APIKIT:NOT_FOUND ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="5453756d-1b72-4b14-a27a-6068654c4787" type="APIKIT:NOT_IMPLEMENTED">
+			<logger level="ERROR" doc:name="START APIKIT:NOT_IMPLEMENTED" doc:id="faea8dfb-1d13-4655-97d6-606c3a1c97e3" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START APIKIT:NOT_IMPLEMENTED ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+			<ee:transform doc:name="Error Payload" doc:id="c55bb463-9971-4d54-8e7d-b77052bf631b" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	errorDetail: {
+		status: '503',
+		errorType: 'APIKIT_NOT_IMPLEMENTED',
+		description: error.description,
+		additionalDetails: error.errorMessage.payload,
+		timeStamp: now(),
+		transactionId: correlationId		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'503']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END APIKIT:NOT_IMPLEMENTED" doc:id="e1543ce7-9087-433e-9634-ae09d340cdbd" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END APIKIT:NOT_IMPLEMENTED ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="85b2c38e-2121-4c14-b89b-5cc694528167" type="APIKIT:UNSUPPORTED_MEDIA_TYPE" >
+			<logger level="ERROR" doc:name="START APIKIT:UNSUPPORTED_MEDIA_TYPE" doc:id="7a33e17e-1f2b-4f4d-8ed9-4620212ed919" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START APIKIT:UNSUPPORTED_MEDIA_TYPE ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+			<ee:transform doc:name="Error Payload" doc:id="9c708f94-7e95-4d9e-8c48-b3067f71d8dd" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	errorDetails: {
+		status: '415',
+		errorType: 'APIKIT:UNSUPPORTED_MEDIA_TYPE',
+		description: error.description,
+		additionalDetails: error.errorMessage.payload,
+		timeStamp: now(),
+		transactionId: correlationId		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'415']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END APIKIT:UNSUPPORTED_MEDIA_TYPE" doc:id="a3444f91-0bee-4612-a7b3-b8facbe4a06c" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END APIKIT:UNSUPPORTED_MEDIA_TYPE ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+		</on-error-propagate>
+	</error-handler>
+	<error-handler name="hb-application-experience-api_Global_Error_Handler" doc:id="3fb9098e-8c2c-4391-a595-9d65a26d9bae" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e59f954e-6fd2-43d1-9548-b139a4edd78c" type="HTTP:BAD_REQUEST" >
+			<logger level="ERROR" doc:name="START HTTP:BAD_REQUEST" doc:id="6cab6a0b-62cc-4e34-925b-b6ef31e56153" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START HTTP:BAD_REQUEST ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+			<ee:transform doc:name="Error Payload" doc:id="3991addb-09a9-4a41-8f01-15827c3ec0fa" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	"errorDetails": {
+		status: '400',
+		errorType: error.errorType.identifier,
+		description: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description else error.errorMessage.payload.errorDetails.description,
+		additionalDetails: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails else error.errorMessage.payload.errorDetails.additionalDetails,
+		timeStamp: now(),
+		transactionId: correlationId
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'400']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END HTTP:BAD_REQUEST" doc:id="43653553-2ca6-4aa8-94e1-e7168f5ec92b" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END HTTP:BAD_REQUEST ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0b780c40-859c-4b6c-a057-4abc77f903f0" type="HTTP:INTERNAL_SERVER_ERROR" >
+			<logger level="ERROR" doc:name="START HTTP:INTERNAL_SERVER_ERROR" doc:id="6ec2bb2b-aa9b-44ad-b58f-c430e22029a2" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START HTTP:INTERNAL_SERVER_ERROR ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+			<ee:transform doc:name="Error Payload" doc:id="d1a3540d-99fd-4947-b020-5c01bfd5bf83" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	"errorDetails": {
+		status: '500',
+		errorType: error.errorType.identifier,
+		description: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description else error.errorMessage.payload.errorDetails.description,
+		additionalDetails: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails else error.errorMessage.payload.errorDetails.additionalDetails,
+		timeStamp: now(),
+		transactionId: correlationId
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'500']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END HTTP:INTERNAL_SERVER_ERROR" doc:id="f2def78a-feec-429f-bd50-a44dad48d897" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END HTTP:INTERNAL_SERVER_ERROR ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="54d12caa-d265-4f3e-b10c-b21f044c874f" type="HTTP:NOT_FOUND" >
+			<logger level="ERROR" doc:name="START HTTP:NOT_FOUND" doc:id="b4bc1dd5-1396-4f13-8632-aabab5bed002" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START HTTP:NOT_FOUND ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+			<ee:transform doc:name="Error Payload" doc:id="0a96c51b-0d18-4d8c-9d13-c10a09ead499" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	"errorDetails": {
+		status: '404',
+		errorType: error.errorType.identifier,
+		description: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description else error.errorMessage.payload.errorDetails.description,
+		additionalDetails: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails else error.errorMessage.payload.errorDetails.additionalDetails,
+		timeStamp: now(),
+		transactionId: correlationId
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'404']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END HTTP:NOT_FOUND" doc:id="b0148778-0463-4932-ac8a-317c371708c5" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END HTTP:NOT_FOUND ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="9a8eb518-030f-4e24-bbf0-721e012a1a75" type="HTTP:TIMEOUT" >
+			<logger level="ERROR" doc:name="START HTTP:TIMEOUT" doc:id="160e1012-0496-475a-b1e7-b723d5a42a90" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START HTTP:TIMEOUT ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+			<ee:transform doc:name="Error Payload" doc:id="562c027e-3315-4c87-9c81-0204a7a15554" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	"errorDetails": {
+		status: '408',
+		errorType: error.errorType.identifier,
+		description: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description else error.errorMessage.payload.errorDetails.description,
+		additionalDetails: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails else error.errorMessage.payload.errorDetails.additionalDetails,
+		timeStamp: now(),
+		transactionId: correlationId
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'408']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END HTTP:TIMEOUT" doc:id="51a6d421-3a35-4319-b445-21f63b6441ff" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END HTTP:TIMEOUT ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e3dd07ff-3868-4209-a227-171c11b44b6a" type="HTTP:UNAUTHORIZED" >
+			<logger level="ERROR" doc:name="START HTTP:UNAUTHORIZED" doc:id="7e79e826-4c81-4faa-9200-1de856d98292" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START HTTP:UNAUTHORIZED ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+			<ee:transform doc:name="Error Payload" doc:id="df577586-4742-4a29-b0eb-bb68b163f9d1" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	"errorDetails": {
+		status: '401',
+		errorType: error.errorType.identifier,
+		description: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description else error.errorMessage.payload.errorDetails.description,
+		additionalDetails: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails else error.errorMessage.payload.errorDetails.additionalDetails,
+		timeStamp: now(),
+		transactionId: correlationId
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'401']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END HTTP:UNAUTHORIZED" doc:id="58ed3a44-4bac-415c-9026-65ee65e3f697" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END HTTP:UNAUTHORIZED ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="410af8e2-21fd-4dca-891d-4f694f67ec48" type="ANY" >
+			<logger level="ERROR" doc:name="START ANY ERROR" doc:id="a106f776-d007-41c1-bd32-e76262088f44" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START ANY ERROR ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+			<ee:transform doc:name="Error Payload" doc:id="1458c33a-ff90-44be-9bd6-da5763ddd3a7" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn = "everywhere"
+---
+{
+	"errorDetails": {
+		status: '500',
+		errorType: error.errorType.identifier,
+		description: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.description else error.errorMessage.payload.errorDetails.description,
+		additionalDetails: if (error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails != null) error.errorMessage.payload.errorDetails.additionalDetails.errorDetails.additionalDetails else error.errorMessage.payload.errorDetails.additionalDetails,
+		timeStamp: now(),
+		transactionId: correlationId
+	}
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+'500']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="ERROR" doc:name="END ANY ERROR" doc:id="fb7af694-5c4c-40a3-9a3c-763f8f9a3e60" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END ANY ERROR ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+		</on-error-propagate>
+	</error-handler>
+	
+</mule>

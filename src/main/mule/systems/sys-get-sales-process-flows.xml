@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:heritage-bookshop-sales-process-api="http://www.mulesoft.org/schema/mule/heritage-bookshop-sales-process-api" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:heritage-bookshop-database-system-api="http://www.mulesoft.org/schema/mule/heritage-bookshop-database-system-api"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/heritage-bookshop-database-system-api http://www.mulesoft.org/schema/mule/heritage-bookshop-database-system-api/current/mule-heritage-bookshop-database-system-api.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/heritage-bookshop-sales-process-api http://www.mulesoft.org/schema/mule/heritage-bookshop-sales-process-api/current/mule-heritage-bookshop-sales-process-api.xsd">
+	<sub-flow name="sys-get-sales-process-flows-subflow" doc:id="df166224-7832-4b53-a3e0-3ca6e87ec688" >
+		<logger level="INFO" doc:name="START sys-create-sales-process-flows-subflow" doc:id="6ef311c0-3fab-444d-abb3-b83b411bb4f7" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START sys-get-sales-process-flows-subflow ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+		<heritage-bookshop-sales-process-api:retrieve-sales-by-transaction-id doc:name="GET hb-sales-process-api" doc:id="91b65e52-406a-41c5-b7c3-4e84b1fa796a" config-ref="Heritage_Bookshop_Sales_Process_API_Config" transaction-id="#[vars.transactionId]"/>
+		<logger level="INFO" doc:name="END sys-create-sales-process-flows-subflow" doc:id="7109f1da-0145-4f90-8387-3e56736bd43f" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END sys-get-sales-process-flows-subflow ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+	</sub-flow>
+</mule>

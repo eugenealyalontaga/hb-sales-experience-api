@@ -1,0 +1,73 @@
+#%RAML 1.0 DataType
+properties:
+  salesId:
+    description: Sales Id
+    example: "B987654"
+    type: string
+    required: true
+  fullName:
+    description: Customer full name
+    example: "Ben Blue"
+    type: string
+    required: false
+  deliveryLoc:
+    description: Delivery Location
+    example: "1 St. Barangay 123, Manila"
+    type: string
+    required: false
+  age:
+    description: Customer age
+    example: "29"
+    type: string
+    required: false
+  gender:
+    description: Customer gender
+    example: "M"
+    type: string | nil
+    required: false
+  contact:
+    description: Customer contact
+    example: "+639999999989"
+    type: string
+    required: false
+  products:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      properties:
+        id:
+          description: Product Id
+          example: " B987654-001"
+          type: string
+          required: false
+        name:
+          description: Product Name
+          example: "The Chronicles of Narnia The Lion, The Witch and the Wardrobe"
+          type: string
+          required: false
+        price:
+          description: Product Price
+          example: 1499
+          type: number
+          required: false
+        qty:
+          description: Product Quantity
+          example: 1
+          type: integer
+          required: false
+  amountDue:
+    description: Amount due
+    example: 1499
+    type: number
+    required: false
+  paymentType:
+    description: Payment Type
+    example: "Cash"
+    type: string
+    required: false
+  creationDate:
+    description: Creation date
+    example: "2025-09-20T10:20:00Z"
+    type: datetime
+    required: false

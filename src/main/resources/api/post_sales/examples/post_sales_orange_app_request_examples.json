@@ -1,0 +1,21 @@
+{
+  "transactionId": "Orange-001",
+  "customer_information": {
+    "name": "Bobby Ong",
+    "address": "#5 Road, Bambang, Pasig City",
+    "age": 21,
+    "gender": "M",
+    "phone": "+639177777787"
+  },
+  "line_items": [
+    {
+      "lineId": "Orange-001-001",
+      "product": "Harry Potter and the Chamber of Secrets",
+      "unitPrice": 998,
+      "quantity": 1
+    }
+  ],
+  "total": 998,
+  "mop": "Credit Card",
+  "timestamp": "2025-09-29T10:15:00Z"
+}

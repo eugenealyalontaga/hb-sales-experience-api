@@ -1,0 +1,17 @@
+%dw 2.0
+
+type auto_df166224_7832_4b53_a3e0_3ca6e87ec688_Output_Payload = {
+  customerAge: Number, 
+  totalAmount: Number, 
+  customerContact: String, 
+  deliveryAddress: String, 
+  customerGender: String, 
+  source: String, 
+  transactionDate: String, 
+  items: Array<{    itemId: String,     quantity: Number,     price: Number,     name: String,     _?: Any  }>, 
+  transactionId: String, 
+  customerName: String, 
+  paymentType: String, 
+  _?: Any
+}
+

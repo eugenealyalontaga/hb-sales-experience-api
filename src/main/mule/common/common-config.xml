@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:heritage-bookshop-sales-process-api="http://www.mulesoft.org/schema/mule/heritage-bookshop-sales-process-api" xmlns:heritage-bookshop-database-system-api="http://www.mulesoft.org/schema/mule/heritage-bookshop-database-system-api"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/heritage-bookshop-database-system-api http://www.mulesoft.org/schema/mule/heritage-bookshop-database-system-api/current/mule-heritage-bookshop-database-system-api.xsd
+http://www.mulesoft.org/schema/mule/heritage-bookshop-sales-process-api http://www.mulesoft.org/schema/mule/heritage-bookshop-sales-process-api/current/mule-heritage-bookshop-sales-process-api.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="d6cfcc97-e7fa-4725-b9ef-7ccdc815816f" file="config\config-${mule.env}.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="4c64b4fc-770f-4e3c-8c78-64a0a3b7c293" file="config\config-secured-${mule.env}.yaml" key="${secure.key}" />
+	<global-property doc:name="Global Property" doc:id="1572454b-e290-4506-9d78-732ba1123eff" name="mule.env" value="local" />
+	<global-property doc:name="Global Property" doc:id="e97f1177-a782-4459-9c67-92b92e9081de" name="secure.key" value="HeritageBookshop" />
+	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="d51d14b9-5c2f-4d1f-b419-d25e30f306b2" flowRef="hb-application-experience-api-main" />
+	<heritage-bookshop-sales-process-api:config name="Heritage_Bookshop_Sales_Process_API_Config" doc:name="Heritage Bookshop Sales Process API Config" doc:id="d6433d6b-2666-48c5-bf9e-d2eb1178d878" property_host="${process.api.host}" property_port="${process.api.port}" property_basePath="${process.api.basePath}" property_protocol="${process.api.protocol}" />
+</mule>

@@ -1,0 +1,37 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+  transactionId:
+    type: string
+  source:
+    type: string
+  customerName:
+    type: string
+  deliveryAddress:
+    type: string
+  customerAge:
+    type: integer
+  customerGender:
+    type: string
+  customerContact:
+    type: string
+  items:
+    type: array
+    items:
+      type: object
+      properties:
+        itemId:
+          type: string
+        name:
+          type: string
+        price:
+          type: integer
+        quantity:
+          type: integer
+  totalAmount:
+    type: integer
+  paymentType:
+    type: string
+  transactionDate:
+    type: string

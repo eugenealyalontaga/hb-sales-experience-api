@@ -1,0 +1,71 @@
+#%RAML 1.0 DataType
+properties:
+  transactionId:
+    description: Transaction Id
+    example: "Orange-001"
+    type: string
+    required: true
+  customer_information:
+    type: object
+    properties:
+      name:
+        description: Customer name
+        example: "Bobby Ong"
+        type: string
+        required: false
+      address:
+        description: Customer address
+        example: "#5 Road, Bambang, Pasig City"
+        type: string
+        required: false
+      age:
+        description: Customer age
+        example: 21
+        type: integer
+        required: false
+      gender:
+        description: Customer gender
+        example: "M"
+        type: string
+        required: false
+  line_items:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      properties:
+        lineId:
+          description: Line Id
+          example: "Orange-001-001"
+          type: string
+          required: false
+        product:
+          description: Product
+          example: "Harry Potter and the Chamber of Secrets"
+          type: string
+          required: false
+        unitPrice:
+          description: Unit price
+          example: 998
+          type: number
+          required: false
+        quantity:
+          description: Quantity
+          example: 1
+          type: integer
+          required: false
+  total:
+    description: Total
+    example: 998
+    type: number
+    required: false
+  mop:
+    description: Mode of payment
+    example: "Credit Card"
+    type: string
+    required: false
+  timestamp:
+    description: Timestamp
+    example: "2025-09-29T10:15:00Z"
+    type: datetime
+    required: false

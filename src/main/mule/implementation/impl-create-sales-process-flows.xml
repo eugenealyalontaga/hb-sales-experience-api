@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="impl-create-sales-process-flows-subflow" doc:id="94811142-9bd4-400e-9ebb-dac0f5bde118" >
+		<logger level="INFO" doc:name="START impl-create-sales-process-flows-subflow" doc:id="32cc694d-eafc-4e52-8776-83b451fe2fa2" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'START impl-create-sales-process-flows-subflow ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]"/>
+		<ee:transform doc:name="Request Mapping for POST /sales" doc:id="bf9c60c5-b69e-43c6-9378-2da4ca958ec0" >
+			<ee:message >
+				<ee:set-payload resource="dwl/post_sales/postSalesRequestMapping.dwl" />
+			</ee:message>
+			<ee:variables >
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="sys-create-sales-process-flows-subflow" doc:id="e8c3fbec-f09d-445e-b4c1-08a7baea4d61" name="sys-create-sales-process-flows-subflow"/>
+		<ee:transform doc:name="Response Mapping from POST /sales payload" doc:id="effddb2a-2deb-4c75-a49f-3c6ca8fb61bd" >
+			<ee:message >
+				<ee:set-payload resource="dwl/post_sales/postSalesResponseMapping.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="END impl-create-sales-process-flows-subflow" doc:id="0e369889-d356-44a3-8dd7-90aeea7b0247" message="#[%dw 2.0&#10;output application/java&#10;---&#10;'END impl-create-sales-process-flows-subflow ' ++&#10;'transactionId:' ++ correlationId ++&#10;' payload=' ++ write(payload, 'application/json')]" />
+	</sub-flow>
+</mule>

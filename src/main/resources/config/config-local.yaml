@@ -1,0 +1,14 @@
+httpListener:
+  host: "localhost"
+  port: "8081"
+  path: "/api/v1/*"
+
+api:
+  id: "20728604"
+
+process:
+  api:
+    host: "hb-sales-process-api-d2e08k.5sc6y6-3.usa-e2.cloudhub.io"
+    port: "443"
+    protocol: "HTTPS"
+    basePath: "/api/v1"
